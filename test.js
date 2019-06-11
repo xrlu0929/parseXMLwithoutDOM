@@ -5,41 +5,37 @@ function parseXML(text){
   let length = parse.length
   var parsedArray = parse.match(/\<(.*?)\>/g)
 //   console.log(parse.substring(length - 6, length));
-  console.log(parsedArray)
+//   console.log(parsedArray)
   
   var parsedLength = parsedArray.length
   
+  let returnInfo = {}
+  
   if (parsedArray[0] !== "<xml>" && parsedArray[parsedLength -1] !== "</xml>") {
-    return;
+    returnInfo = null;
   } else {
     console.log("start parse")
-//     console.log(text.match('CDATA'))
-    // loop through each parsedArray items
-    /**
-    *  check if they have 
-    **/
-    if(text.match('CDATA') != null){
-      console.log('matches')
-      console.log(text.match("CDATA"))
-      console.log(text.match(/\[(.*?)\]/g))
-      var parseArray = text.match(/\[(.*?)\]/g)
-      if (parseArray && parseArray.length > 0){
-        for(var i = 0; i < parseArray.length -1; i++){
-          let item = parseArray[i]
-          console.log(item.substring(1, 6))
-          if (item.substring(1, 6) === "CDATA"){
-            var information = item.substring(7, item.length -1)
-            console.log(information)
-
-          } 
-          
-        }
+    
+    var key = ''
+    var value = ''
+    for(let i = 0; i < parsedLength; i++) {
+      if (i % 3 == 1 && i != parsedLength - 1) {
+//         console.log(parsedArray[i]);
+        // key
+        key = parsedArray[i].substring(1, parsedArray[i].length-1);
+        console.log(key);
+      } else if (i % 3 == 2) {
+//         console.log(parsedArray[i]);
+//         value
+        value = parsedArray[i].substring(9, parsedArray[i].length-3);
+        console.log(value);
+      } else if (i!= 0 && i != parsedLength - 1){
+        returnInfo[key]=value
       }
-      
-    } else {
-      console.log('not match')
+     
     }
-   
+    console.log(returnInfo)
+    
   }
 }
 
